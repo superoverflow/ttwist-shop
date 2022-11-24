@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate": "dotenv -e .env.local -- npx prisma db push",
-    "studio": "dotenv -e .env.local -- npx prisma studio"
+    "migrate": "npx prisma db push",
+    "studio": "npx prisma studio"
   },
   "dependencies": {
     "@prisma/client": "^4.6.1",
@@ -17,7 +17,6 @@
     "@types/react-dom": "18.0.9",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.4",
-    "mysql2": "^2.3.3",
     "next": "13.0.4",
     "prisma": "^4.6.1",
     "react": "18.2.0",
