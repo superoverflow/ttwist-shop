@@ -1,3 +1,7 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
@@ -11,8 +15,14 @@ model User {
 
 model Product {
   id   Int     @id @default(autoincrement())
-  name String  @unique
-  description String
+  sku String?
+  name_gb String  @unique
+  name_hk String  @unique
+  type String
+  description_gb Bytes?
+  description_hk Bytes?
   stock Int
-  price Float
+  price_gb Float
+  price_eu Float
+  price_hk Float
 }
