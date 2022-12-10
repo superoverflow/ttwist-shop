@@ -4,11 +4,14 @@ import { Form, FormRenderProps, useField } from "react-final-form";
 import React from "react";
 import { cva } from "class-variance-authority";
 
-const inputVariant = cva(["border", "shadow", "rounded"], {
+const inputVariant = cva(["border", "shadow", "rounded", "px-2", "mx-2"], {
   variants: {
     intent: {
       primary: [" border-stone-400"],
       secondary: [" border-stone-900"],
+    },
+    size: {
+      small: ["w-1/4"],
     },
   },
   defaultVariants: {
@@ -16,11 +19,11 @@ const inputVariant = cva(["border", "shadow", "rounded"], {
   },
 });
 
-const buttonVariant = cva(["border", "shadow"], {
+const buttonVariant = cva(["border", "shadow", "rounded", "px-2", "ml-auto", "mr-2"], {
   variants: {
     intent: {
-      primary: ["border-stone-400 rounded hover:bg-slate-400"],
-      secondary: ["border-stone-900 rounded hover:bg-slate-900"],
+      primary: ["border-stone-400", "hover:bg-slate-400", ],
+      secondary: ["border-stone-900", "hover:bg-slate-900"],
     },
   },
   defaultVariants: {
@@ -45,7 +48,7 @@ const ProductForm = () => {
     const stock = useField("stock", { type: "number" });
 
     return (
-      <div className="container mx-auto py-5">
+      <div className="container mx-auto py-5 px-5">
         <h1 className="text-3xl font-bold">Hello world!</h1>
         <form onSubmit={props.handleSubmit}>
           <div className="flex flex-col space-y-2 mt-2">
@@ -66,20 +69,22 @@ const ProductForm = () => {
               placeholder="description"
               rows={3}
             />
-            <input
-              className={inputVariant()}
-              {...price.input}
-              placeholder="price"
-            />
-            <input
-              className={inputVariant()}
-              {...stock.input}
-              type="number"
-              placeholder="stock"
-            />
-            <button className={buttonVariant()} type="submit">
-              Submit
-            </button>
+            <div className="flex flex-auto flex-row">
+              <input
+                className={inputVariant({ size: "small" })}
+                {...price.input}
+                placeholder="price"
+              />
+              <input
+                className={inputVariant({ size: "small" })}
+                {...stock.input}
+                type="number"
+                placeholder="stock"
+              />
+              <button className={buttonVariant()} type="submit">
+                Submit
+              </button>
+            </div>
           </div>
         </form>
       </div>
