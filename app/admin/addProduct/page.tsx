@@ -4,7 +4,7 @@ import { Form, FormRenderProps, useField } from "react-final-form";
 import React from "react";
 import { cva } from "class-variance-authority";
 
-const inputVariant = cva(["border", "shadow", "rounded", "px-2", "mx-2"], {
+const inputVariant = cva(["border", "shadow", "rounded", "px-2", "mx-4"], {
   variants: {
     intent: {
       primary: [" border-stone-400"],
@@ -48,8 +48,8 @@ const ProductForm = () => {
     const stock = useField("stock", { type: "number" });
 
     return (
-      <div className="container mx-auto py-5 px-5">
-        <h1 className="text-3xl font-bold">Hello world!</h1>
+      <div className="container mx-auto py-2">
+        <h1 className="text-3xl font-bold text-center py-2">Add new product</h1>
         <form onSubmit={props.handleSubmit}>
           <div className="flex flex-col space-y-2 mt-2">
             <input
