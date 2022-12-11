@@ -1,16 +1,16 @@
-"use client";
-import React from "react";
-import { Form, FormRenderProps, useField } from "react-final-form";
-import { cva } from "class-variance-authority";
-import axios from "axios";
-import type { Prisma } from "@prisma/client";
+"use client"
+import React from "react"
+import { Form, FormRenderProps, useField } from "react-final-form"
+import RichTextEditor from "components/RichTextEditor"
+import { cva } from "class-variance-authority"
+import axios from "axios"
+import type { Prisma } from "@prisma/client"
 
-type Props = Prisma.ProductCreateInput;
+type Props = Prisma.ProductCreateInput
 
 async function addProduct(product: Prisma.ProductCreateInput) {
-  axios.post('/api/add', product).then(() => console.log("okay!"))
+  axios.post("/api/add", product).then(() => console.log("okay!"))
 }
-
 
 const inputVariant = cva(["border", "shadow", "rounded", "px-2", "mx-4"], {
   variants: {
@@ -25,7 +25,7 @@ const inputVariant = cva(["border", "shadow", "rounded", "px-2", "mx-4"], {
   defaultVariants: {
     intent: "primary",
   },
-});
+})
 
 const buttonVariant = cva(
   ["border", "shadow", "rounded", "px-2", "py-1", "ml-auto", "mr-4"],
@@ -40,15 +40,15 @@ const buttonVariant = cva(
       intent: "primary",
     },
   }
-);
+)
 
 const ProductForm = () => {
   const FormContent = (props: FormRenderProps<Props>) => {
-    const productName = useField("name");
-    const productType = useField("type");
-    const description = useField("description");
-    const price = useField("price", { type: "number" });
-    const stock = useField("stock", { type: "number" });
+    const productName = useField("name")
+    const productType = useField("type")
+    const description = useField("description")
+    const price = useField("price", { type: "number" })
+    const stock = useField("stock", { type: "number" })
 
     return (
       <div className="container mx-auto py-2">
@@ -72,6 +72,7 @@ const ProductForm = () => {
               placeholder="description"
               rows={3}
             />
+            <RichTextEditor />
             <div className="flex flex-auto flex-row">
               <input
                 className={inputVariant({ size: "small" })}
@@ -81,7 +82,6 @@ const ProductForm = () => {
               <input
                 className={inputVariant({ size: "small" })}
                 {...stock.input}
-                type="number"
                 placeholder="stock"
               />
               <button className={buttonVariant()} type="submit">
@@ -91,24 +91,24 @@ const ProductForm = () => {
           </div>
         </form>
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <Form
       onSubmit={async (payload) => {
-        console.log(payload);
-        const product = await addProduct(payload);
+        console.log(payload)
+        const product = await addProduct(payload)
       }}
       component={FormContent}
     />
-  );
-};
+  )
+}
 
 export default function Page() {
   return (
     <div>
       <ProductForm />
     </div>
-  );
+  )
 }

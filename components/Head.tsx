@@ -22,5 +22,5 @@ export default function Head(title: string) {
       />
       <link rel="manifest" href="/favicon_io/site.webmanifest"></link>
     </>
-  );
+  )
 }
