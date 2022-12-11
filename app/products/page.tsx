@@ -9,10 +9,11 @@ async function getData() {
 
 export default async function Page() {
   const products = await getData();
+  console.log({products})
   return (
     <>
       {products.map((product) => (
-        <h1 key={product.id}>Hello, {product.name_gb} </h1>
+        <h1 key={product.id}>Hello, {product.name} </h1>
       ))}
     </>
   );

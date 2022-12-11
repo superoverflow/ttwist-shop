@@ -13,7 +13,7 @@ export default async function handler(
   const prisma = new PrismaClient();
   const products = await prisma.product.findMany();
   const result = products.map((p) => ({
-    name: p.name_gb,
+    name: p.name,
     stock: p.stock,
   }));
   res.status(200).json(result);
