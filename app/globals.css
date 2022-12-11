@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 
+ FIXME: extra p tag after li element from ProseMirror
+ https://github.com/ueberdosis/tiptap/issues/118#issuecomment-491480830
+ */
+li > p:first-child {
+  display: inline;
+}

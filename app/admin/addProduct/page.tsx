@@ -12,7 +12,7 @@ async function addProduct(product: Prisma.ProductCreateInput) {
   axios.post("/api/add", product).then(() => console.log("okay!"))
 }
 
-const inputVariant = cva(["border", "shadow", "rounded", "px-2", "mx-4"], {
+const inputVariant = cva(["border", "shadow", "rounded", "px-2"], {
   variants: {
     intent: {
       primary: ["border-stone-400"],
@@ -28,7 +28,7 @@ const inputVariant = cva(["border", "shadow", "rounded", "px-2", "mx-4"], {
 })
 
 const buttonVariant = cva(
-  ["border", "shadow", "rounded", "px-2", "py-1", "ml-auto", "mr-4"],
+  ["border", "shadow", "rounded", "px-2", "py-1", "ml-auto"],
   {
     variants: {
       intent: {
@@ -51,7 +51,7 @@ const ProductForm = () => {
     const stock = useField("stock", { type: "number" })
 
     return (
-      <div className="container mx-auto py-2">
+      <div className="container mx-auto p-4">
         <h1 className="text-3xl font-bold text-center mb-5">Add new product</h1>
         <form onSubmit={props.handleSubmit}>
           <div className="flex flex-col space-y-2 mt-2">
@@ -72,7 +72,7 @@ const ProductForm = () => {
               placeholder="description"
               rows={3}
             />
-            <RichTextEditor />
+            <RichTextEditor content="hello world !" editable />
             <div className="flex flex-auto flex-row">
               <input
                 className={inputVariant({ size: "small" })}
@@ -80,7 +80,7 @@ const ProductForm = () => {
                 placeholder="price"
               />
               <input
-                className={inputVariant({ size: "small" })}
+                className={inputVariant({ size: "small", className: "ml-2" })}
                 {...stock.input}
                 placeholder="stock"
               />
