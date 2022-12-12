@@ -1,5 +1,4 @@
 "use client"
-import React from "react"
 import axios from "axios"
 import { Form, FormRenderProps, useField } from "react-final-form"
 import { RichTextEditor } from "components/RichTextEditor"
@@ -13,7 +12,28 @@ async function addProduct(product: Prisma.ProductCreateInput) {
   axios.post("/api/add", product).then(() => console.log("okay!"))
 }
 
-const inputVariant = cva(["border", "shadow", "rounded", "px-2"], {
+async function uploadToS3(file: File | undefined) {
+  if (!file) {
+    return
+  }
+
+  const { data } = await axios.post("/api/presignedUrl", {
+    name: file.name,
+    type: file.type,
+  })
+
+  const url = data.url
+  const { data: newData } = await axios.put(url, file, {
+    headers: {
+      "Content-type": file.type,
+      "Access-Control-Allow-Origin": "*",
+    },
+  })
+
+  console.log({ newData })
+}
+
+const inputVariant = cva(["border", "shadow", "rounded"], {
   variants: {
     intent: {
       primary: ["border-stone-400"],
@@ -64,6 +84,7 @@ const ProductForm = () => {
           <input
             className={inputVariant()}
             {...productName.input}
+            type="text"
             placeholder="product name"
           />
           <input
@@ -77,6 +98,14 @@ const ProductForm = () => {
             content={description.input.value}
             onChange={description.input.onChange}
           />
+          <div className="flex flex-auto flex-row items-center p-2">
+            <p>Upload Pictures</p>
+            <input
+              type="file"
+              className="ml-auto"
+              onChange={(e) => uploadToS3(e.target.files?.[0])}
+            />
+          </div>
           <div className="flex flex-auto flex-row">
             <input
               className={inputVariant({
@@ -122,11 +151,12 @@ export default function Page() {
       </h1>
       <ProductForm />
       <Image
-        className="mx-auto mt-20"
+        className="mx-auto mt-20 w-auto"
         src="/undraw_create_re_57a3.svg"
         alt="create new product"
         width={500}
         height={500}
+        priority
       />
     </div>
   )

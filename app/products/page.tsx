@@ -23,7 +23,7 @@ const ProductCard = ({ product }: { product: Product }) => (
 
 export default async function Page() {
   const products = await getData()
-  console.log({ products })
+  
   return (
     <div className="container p-2">
       {products.map((product, index) => (
