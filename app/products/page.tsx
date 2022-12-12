@@ -25,9 +25,9 @@ export default async function Page() {
   const products = await getData()
   console.log({ products })
   return (
-    <div>
+    <div className="container p-2">
       {products.map((product, index) => (
-        <div key={index} className="border border-stone-600">
+        <div key={index} className="border border-stone-600 p-2">
           <ProductCard product={product} />
         </div>
       ))}
