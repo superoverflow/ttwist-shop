@@ -68,7 +68,7 @@ export const RichTextEditor = ({
 }: {
   content: string
   editable: boolean
-  onChange: (event: any) => void
+  onChange?: (event: any) => void
 }) => {
   const editor = useEditor({
     extensions: [StarterKit, Underline, BulletList],
@@ -81,7 +81,7 @@ export const RichTextEditor = ({
     },
     onUpdate: ({ editor }) => {
       const html = editor.getHTML()
-      onChange(html)
+      onChange && onChange(html)
     }
   })
 
