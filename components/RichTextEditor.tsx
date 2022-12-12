@@ -1,15 +1,16 @@
 import { useEditor, EditorContent, Editor } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import BulletList from "@tiptap/extension-bullet-list"
+import Underline from "@tiptap/extension-underline"
 import { cva } from "class-variance-authority"
-import { Bold, Italic, List } from "tabler-icons-react"
+import { Bold, Italic, Underline as UnderScore, List } from "tabler-icons-react"
 
-const editorStyle = cva(["border", "rounded", "shadow", "p-2", "min-h-full"])
+const editorStyle = cva(["p-2"])
 const editorControlStyle = cva(["border", "rounded", "shadow"], {
   variants: {
     intent: {
       primary: [],
-      active: ["bg-teal-400"],
+      active: ["bg-slate-400"],
     },
   },
 })
@@ -19,7 +20,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
     return null
   }
   return (
-    <div className="flex flex-row p-2 border">
+    <div className="flex flex-row p-2 space-x-3 border">
       {/* bold */}
       <div
         onClick={() => editor.chain().focus().toggleBold().run()}
@@ -38,6 +39,15 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
       >
         <Italic />
       </div>
+      {/* underscore */}
+      <div
+        onClick={() => editor.chain().focus().toggleUnderline().run()}
+        className={editorControlStyle({
+          intent: editor.isActive("underline") ? "active" : "primary",
+        })}
+      >
+        <UnderScore />
+      </div>
       {/* bullet points */}
       <div
         onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -51,33 +61,34 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
   )
 }
 
-const Tiptap = ({
+export const RichTextEditor = ({
   content,
   editable = true,
+  onChange
 }: {
   content: string
   editable: boolean
+  onChange: (event: any) => void
 }) => {
   const editor = useEditor({
-    extensions: [StarterKit, BulletList],
-    content: `<ul>
-              <li> That’s a bullet list with one … </li>
-              <li> … or two list items.</li>
-            </ul>`,
+    extensions: [StarterKit, Underline, BulletList],
+    content,
     editable,
     editorProps: {
       attributes: {
         class: "focus:outline-none [&>*]:list-disc [&>*]:list-inside",
       },
     },
+    onUpdate: ({ editor }) => {
+      const html = editor.getHTML()
+      onChange(html)
+    }
   })
 
   return (
-    <div>
+    <div key="editor" className="border-stone-400 border rounded min-h-[200px]">
       {editable && <MenuBar editor={editor} />}
       <EditorContent className={editorStyle()} editor={editor} />
     </div>
   )
 }
-
-export default Tiptap

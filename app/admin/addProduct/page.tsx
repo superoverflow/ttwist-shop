@@ -1,9 +1,10 @@
 "use client"
 import React from "react"
-import { Form, FormRenderProps, useField } from "react-final-form"
-import RichTextEditor from "components/RichTextEditor"
-import { cva } from "class-variance-authority"
 import axios from "axios"
+import { Form, FormRenderProps, useField } from "react-final-form"
+import { RichTextEditor } from "components/RichTextEditor"
+import { cva } from "class-variance-authority"
+import Image from "next/image"
 import type { Prisma } from "@prisma/client"
 
 type Props = Prisma.ProductCreateInput
@@ -46,51 +47,59 @@ const ProductForm = () => {
   const FormContent = (props: FormRenderProps<Props>) => {
     const productName = useField("name")
     const productType = useField("type")
-    const description = useField("description")
+    const description = useField("description", {
+      initialValue: `<p>Any <b>description</b> can be <u>put</u> <i>below</i>:</p>
+       <ul>
+        <li>feature 1</li>
+        <li>feature 2</li>
+      </ul>
+      `,
+    })
     const price = useField("price", { type: "number" })
     const stock = useField("stock", { type: "number" })
 
     return (
-      <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold text-center mb-5">Add new product</h1>
-        <form onSubmit={props.handleSubmit}>
-          <div className="flex flex-col space-y-2 mt-2">
+      <form onSubmit={props.handleSubmit}>
+        <div className="flex flex-col space-y-2 mt-2">
+          <input
+            className={inputVariant()}
+            {...productName.input}
+            placeholder="product name"
+          />
+          <input
+            className={inputVariant()}
+            {...productType.input}
+            type="text"
+            placeholder="type"
+          />
+          <RichTextEditor
+            editable
+            content={description.input.value}
+            onChange={description.input.onChange}
+          />
+          <div className="flex flex-auto flex-row">
             <input
-              className={inputVariant()}
-              {...productName.input}
-              placeholder="product name"
+              className={inputVariant({
+                size: "small",
+                className: "text-right",
+              })}
+              {...price.input}
+              placeholder="price"
             />
             <input
-              className={inputVariant()}
-              {...productType.input}
-              type="text"
-              placeholder="type"
+              className={inputVariant({
+                size: "small",
+                className: "text-right ml-2",
+              })}
+              {...stock.input}
+              placeholder="stock"
             />
-            <textarea
-              className={inputVariant()}
-              {...description.input}
-              placeholder="description"
-              rows={3}
-            />
-            <RichTextEditor content="hello world !" editable />
-            <div className="flex flex-auto flex-row">
-              <input
-                className={inputVariant({ size: "small" })}
-                {...price.input}
-                placeholder="price"
-              />
-              <input
-                className={inputVariant({ size: "small", className: "ml-2" })}
-                {...stock.input}
-                placeholder="stock"
-              />
-              <button className={buttonVariant()} type="submit">
-                Submit
-              </button>
-            </div>
+            <button className={buttonVariant()} type="submit">
+              Submit
+            </button>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     )
   }
 
@@ -107,8 +116,18 @@ const ProductForm = () => {
 
 export default function Page() {
   return (
-    <div>
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold text-center mb-5 text-teal-600">
+        Create new product
+      </h1>
       <ProductForm />
+      <Image
+        className="mx-auto mt-20"
+        src="/undraw_create_re_57a3.svg"
+        alt="create new product"
+        width={500}
+        height={500}
+      />
     </div>
   )
 }
