@@ -1,6 +1,5 @@
 import { useEditor, EditorContent, Editor } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
-import BulletList from "@tiptap/extension-bullet-list"
 import Underline from "@tiptap/extension-underline"
 import { cva } from "class-variance-authority"
 import { Bold, Italic, Underline as UnderScore, List } from "tabler-icons-react"
@@ -71,7 +70,7 @@ export const RichTextEditor = ({
   onChange?: (event: any) => void
 }) => {
   const editor = useEditor({
-    extensions: [StarterKit, Underline, BulletList],
+    extensions: [StarterKit, Underline],
     content,
     editable,
     editorProps: {
