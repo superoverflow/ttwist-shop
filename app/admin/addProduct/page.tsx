@@ -78,6 +78,12 @@ const ProductForm = () => {
     })
     const price = useField("price", { type: "number" })
     const stock = useField("stock", { type: "number" })
+    const photoUrls = useField("pictures", {
+      parse: (urls: string[]) =>
+        urls.map((url) => ({
+          url,
+        })),
+    })
 
     return (
       <form onSubmit={props.handleSubmit}>
@@ -100,7 +106,7 @@ const ProductForm = () => {
             onChange={description.input.onChange}
           />
 
-          <UploadFilesPanel />
+          <UploadFilesPanel setPhotoUrls={photoUrls.input.onChange} />
 
           <div className="flex flex-auto flex-row">
             <input

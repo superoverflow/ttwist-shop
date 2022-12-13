@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useRef, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import { Photo, PhotoCancel, Upload } from "tabler-icons-react"
 import { cva } from "class-variance-authority"
 import axios from "axios"
@@ -59,19 +59,6 @@ async function uploadFileToS3(file: File, url: string) {
   })
 }
 
-async function uploadToS3(files: FileList) {
-  if (files.length === 0) {
-    console.log("no files to be uploaded")
-    return
-  }
-
-  Array.from(files).map(async (file) => {
-    const url = await generateS3PresignedUrl(file)
-    await uploadFileToS3(file, url)
-    console.log(`uploaded ${file.name} to ${url}`)
-  })
-}
-
 const iconButtonStyle = cva(["cursor-pointer", "px-1", "rounded"])
 
 const IconButton = ({
@@ -90,13 +77,19 @@ const IconButton = ({
 
 const INITIAL_STATUS_TEXT = "choose photos to upload"
 
-export const UploadFilesPanel = ({}: {}) => {
+export const UploadFilesPanel = ({
+  setPhotoUrls,
+}: {
+  setPhotoUrls: Dispatch<SetStateAction<string[]>>
+}) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [files, setFiles] = useState<FileList | null>(null)
   const [statusText, setStatusText] = useState<string>(INITIAL_STATUS_TEXT)
 
   useEffect(() => {
-    files && setStatusText(`selected ${files?.length} files to upload`)
+    if ((files?.length || 0) > 0) {
+      setStatusText(`selected ${files?.length} files to upload`)
+    }
   }, [files])
 
   return (
@@ -132,8 +125,19 @@ export const UploadFilesPanel = ({}: {}) => {
             </IconButton>
             <IconButton
               onClick={async () => {
-                files && (await uploadToS3(files))
-                setStatusText(`uploaded ${files?.length} files`)
+                if (!files) {
+                  return
+                }
+                const photoUrls = await Promise.all(
+                  Array.from(files).map(async (file) => {
+                    const presignedUrl = await generateS3PresignedUrl(file)
+                    await uploadFileToS3(file, presignedUrl)
+                    const photoUrl = presignedUrl.split("?")[0]
+                    return photoUrl
+                  })
+                )
+                setPhotoUrls(photoUrls)
+                setStatusText(`uploaded ${files.length} photos`)
               }}
             >
               <Upload className="stroke-teal-600 hover:bg-teal-300 rounded" />
