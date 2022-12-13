@@ -22,10 +22,10 @@ export const ProductCard = ({
       />
       <div className="flex flex-col p-5">
         <div className="flex flex-row">
-          <span className="flex-grow text-lg font-semibold mb-1 text-teal-800 ">
+          <span className="flex-grow text-base font-semibold mb-1 text-teal-800 ">
             {productName.toUpperCase()}
           </span>
-          <span className="text-lg text-right mb-5 text-teal-600">
+          <span className="text-sm text-right mb-5 text-teal-600">
             £ {price}
           </span>
         </div>

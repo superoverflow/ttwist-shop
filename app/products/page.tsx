@@ -13,35 +13,13 @@ async function getData() {
   return products
 }
 
-// const ProductCard = ({
-//   product,
-// }: {
-//   product: Product & { pictures: Picture[] }
-// }) => (
-//   <div className="flex flex-col">
-//     <div>name: {product.name}</div>
-//     <div>type: {product.type}</div>
-//     <div
-//       className="ProseMirror [&>*]:list-disc [&>*]:list-inside"
-//       dangerouslySetInnerHTML={{ __html: product.description.toString() }}
-//     />
-//     <div>price: {product.price}</div>
-//     <div>stock: {product.stock}</div>
-//     {product.pictures.map((picture) => (
-//       <img key={picture.id} src={picture.url} alt="photo" />
-//     ))}
-//   </div>
-// )
-
 export default async function Page() {
   const products = await getData()
 
   return (
-    <div className="container p-2">
+    <div className="container flex p-2 space-x-5">
       {products.map((product, index) => (
-        <div key={index} className="border border-stone-600 p-2">
-          <ProductCard product={product} />
-        </div>
+        <ProductCard key={index} product={product} />
       ))}
     </div>
   )
