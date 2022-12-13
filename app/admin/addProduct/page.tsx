@@ -2,6 +2,7 @@
 import axios from "axios"
 import { Form, FormRenderProps, useField } from "react-final-form"
 import { RichTextEditor } from "components/RichTextEditor"
+import { UploadFilesPanel } from "components/UploadFilesPanel"
 import { cva } from "class-variance-authority"
 import Image from "next/image"
 import type { Prisma } from "@prisma/client"
@@ -98,14 +99,9 @@ const ProductForm = () => {
             content={description.input.value}
             onChange={description.input.onChange}
           />
-          <div className="flex flex-auto flex-row items-center p-2">
-            <p>Upload Pictures</p>
-            <input
-              type="file"
-              className="ml-auto"
-              onChange={(e) => uploadToS3(e.target.files?.[0])}
-            />
-          </div>
+
+          <UploadFilesPanel />
+
           <div className="flex flex-auto flex-row">
             <input
               className={inputVariant({

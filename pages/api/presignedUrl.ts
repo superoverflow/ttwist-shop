@@ -1,6 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import S3 from "aws-sdk/clients/s3"
 
+type SuccessResponse = {
+  url: string
+}
+
+type ErrorResponse = {
+  message: string
+}
+
 const s3 = new S3({
   region: "eu-west-2",
   accessKeyId: process.env.S3_ACCESS_KEY_ID,
@@ -10,7 +18,7 @@ const s3 = new S3({
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<SuccessResponse | ErrorResponse>
 ) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" })
@@ -31,6 +39,6 @@ export default async function handler(
     res.status(200).json({ url })
   } catch (err) {
     console.log(err)
-    res.status(400).json({ message: err })
+    res.status(400).json({ message: err as string })
   }
 }

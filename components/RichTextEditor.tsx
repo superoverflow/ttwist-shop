@@ -5,7 +5,7 @@ import { cva } from "class-variance-authority"
 import { Bold, Italic, Underline as UnderScore, List } from "tabler-icons-react"
 
 const editorStyle = cva(["p-2"])
-const editorControlStyle = cva(["border", "rounded", "shadow"], {
+const editorControlStyle = cva(["border", "rounded", "shadow", "active:bg-slate-400"], {
   variants: {
     intent: {
       primary: [],
@@ -60,9 +60,14 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
   )
 }
 
+const contentPlaceholder = `<p>Any <b>description</b> can be <u>put</u> <i>below</i>:</p>
+<ul>
+ <li>feature 1</li>
+ <li>feature 2</li>
+</ul>`
+
 export const RichTextEditor = ({
-  content,
-  editable = true,
+  content = contentPlaceholder,
   onChange
 }: {
   content: string
@@ -72,7 +77,6 @@ export const RichTextEditor = ({
   const editor = useEditor({
     extensions: [StarterKit, Underline],
     content,
-    editable,
     editorProps: {
       attributes: {
         class: "focus:outline-none [&>*]:list-disc [&>*]:list-inside",
@@ -86,7 +90,7 @@ export const RichTextEditor = ({
 
   return (
     <div key="editor" className="border-stone-400 border rounded min-h-[200px]">
-      {editable && <MenuBar editor={editor} />}
+      <MenuBar editor={editor} />
       <EditorContent className={editorStyle()} editor={editor} />
     </div>
   )
