@@ -30,5 +30,5 @@ model Picture {
   product   Product @relation(fields: [productId], references: [id])
   productId Int
   url       String
-  cover     Boolean
+  cover     Boolean @default(false)
 }
