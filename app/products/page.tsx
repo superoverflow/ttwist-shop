@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client"
-import type { Product, Pictures } from "@prisma/client"
+import type { Product, Picture } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
@@ -15,7 +15,7 @@ async function getData() {
 const ProductCard = ({
   product,
 }: {
-  product: Product & { pictures: Pictures[] }
+  product: Product & { pictures: Picture[] }
 }) => (
   <div className="flex flex-col">
     <div>name: {product.name}</div>
@@ -27,7 +27,7 @@ const ProductCard = ({
     <div>price: {product.price}</div>
     <div>stock: {product.stock}</div>
     {product.pictures.map((picture) => (
-      <img key={picture.id} src={picture.url} alt={picture.id} />
+      <img key={picture.id} src={picture.url} alt="photo" />
     ))}
   </div>
 )
