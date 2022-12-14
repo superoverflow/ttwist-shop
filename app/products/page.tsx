@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client"
 import { ProductCard } from "components/ProductCard"
-import type { Product, Picture } from "@prisma/client"
 
 const prisma = new PrismaClient()
 

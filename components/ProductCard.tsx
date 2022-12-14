@@ -1,5 +1,8 @@
+"use client"
+
 import type { Product, Picture } from "@prisma/client"
 import Image from "next/image"
+import { useRouter } from 'next/navigation'
 import React from "react"
 
 export const ProductCard = ({
@@ -10,6 +13,8 @@ export const ProductCard = ({
   const coverPhotoUrl = product.pictures[0].url
   const productName = product.name
   const price = product.price
+
+  const router = useRouter()
 
   return (
     <div className="max-w-xs overflow-hidden rounded-xl bg-teal-50 shadow-md duration-200 hover:scale-105 hover:shadow-xl m-5">
@@ -29,7 +34,9 @@ export const ProductCard = ({
             £ {price}
           </span>
         </div>
-        <button className="w-full rounded-md bg-teal-600  py-2 text-teal-100 hover:bg-teal-500 hover:shadow-md duration-75">
+        <button className="w-full rounded-md bg-teal-600  py-2 text-teal-100 hover:bg-teal-500 hover:shadow-md duration-75"
+            onClick={() => router.push(`/productDetail/${product.id}`)}
+        >
           Buy
         </button>
       </div>
