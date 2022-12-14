@@ -3,7 +3,7 @@ import Image from "next/image"
 import React from "react"
 
 export const ProductCard = ({
-  product,
+  product
 }: {
   product: Product & { pictures: Picture[] }
 }) => {
@@ -12,7 +12,7 @@ export const ProductCard = ({
   const price = product.price
 
   return (
-    <div className="max-w-xs overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl">
+    <div className="max-w-xs overflow-hidden rounded-xl bg-teal-50 shadow-md duration-200 hover:scale-105 hover:shadow-xl m-5">
       <Image
         src={coverPhotoUrl}
         alt={productName}

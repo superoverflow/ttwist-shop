@@ -17,9 +17,9 @@ export default async function Page() {
   const products = await getData()
 
   return (
-    <div className="container flex p-2 space-x-5">
-      {products.map((product, index) => (
-        <ProductCard key={index} product={product} />
+    <div className="container flex p-5 mx-auto flex-row flex-wrap align-middle justify-center">
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} />
       ))}
     </div>
   )
